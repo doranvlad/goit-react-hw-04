@@ -5,7 +5,11 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import { Oval } from "react-loader-spinner";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./components/ImageModal/ImageModal";
+import Modal from "react-modal";
 import "./App.css";
+
+Modal.setAppElement("#root");
 
 function App() {
   const [search, setSearch] = useState("");
@@ -15,6 +19,7 @@ function App() {
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
   const [loadMore, setLoadMore] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const onSubmit = (value) => {
     setResponseList([]);
@@ -27,10 +32,11 @@ function App() {
     if (search === "") {
       return;
     }
-    async function fetch() {
+    async function fetchData() {
       try {
         setLoading(true);
         const data = await fetchList(search, page);
+        console.log(data.data);
         setResponseList((prev) => {
           return [...prev, ...data.data.results];
         });
@@ -43,7 +49,7 @@ function App() {
       }
     }
 
-    fetch();
+    fetchData();
   }, [search, page]);
 
   useEffect(() => {
@@ -60,16 +66,58 @@ function App() {
     }
   };
 
+  const openModal = (imageUrl) => {
+    console.log(imageUrl);
+    setSelectedImage(imageUrl);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <>
       <SearchBar onSubmit={onSubmit} />
       {error ? (
         <ErrorMessage />
       ) : (
-        responseList.length > 0 && <ImageGallery responseList={responseList} />
+        responseList.length > 0 && (
+          <ImageGallery responseList={responseList} onImageClick={openModal} />
+        )
       )}
       {loading && <Oval wrapperClass="loader" color="#4e75ff" />}
       {loadMore && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
+      <Modal
+        isOpen={selectedImage !== null}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(27, 27, 27, 0.75)",
+          },
+          content: {
+            position: "absolute",
+            top: "70px",
+            left: "100px",
+            right: "100px",
+            bottom: "70px",
+            border: "none",
+            background: "#fff",
+            overflow: "hidden",
+            borderRadius: "4px",
+            outline: "none",
+            padding: "0px",
+          },
+        }}
+      >
+        {selectedImage && (
+          <ImageModal imageUrl={selectedImage} onClose={closeModal} />
+        )}
+      </Modal>
     </>
   );
 }

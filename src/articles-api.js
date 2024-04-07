@@ -7,7 +7,7 @@ const perPage = 12;
 
 export const fetchList = async (topic, page) => {
   const response = axios.get(
-    `https://api.unsplash.com/search/photos/?client_id=${YOUR_ACCESS_KEY}&query=${topic}&per_page=${perPage}&page=${page}`
+    `https://api.unsplash.com/search/photos/?client_id=${YOUR_ACCESS_KEY}&query=${topic}&per_page=${perPage}&page=${page}&orientation=landscape`
   );
   return response;
 };
