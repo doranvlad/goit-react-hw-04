@@ -1,0 +1,7 @@
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  border-color: #4e75ff;
+  transform: translate(-50%, -50%);
+}
