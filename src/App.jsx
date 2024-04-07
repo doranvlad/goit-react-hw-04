@@ -36,7 +36,6 @@ function App() {
       try {
         setLoading(true);
         const data = await fetchList(search, page);
-        console.log(data.data);
         setResponseList((prev) => {
           return [...prev, ...data.data.results];
         });
@@ -67,7 +66,6 @@ function App() {
   };
 
   const openModal = (imageUrl) => {
-    console.log(imageUrl);
     setSelectedImage(imageUrl);
   };
 
