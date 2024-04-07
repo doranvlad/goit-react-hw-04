@@ -5,7 +5,8 @@ function ImageCard({ item, onImageClick }) {
     <div
       className={s.imgWrap}
       onClick={() => {
-        onImageClick(item.urls.raw);
+        // onImageClick(item.urls.regular);
+        onImageClick(item);
       }}
     >
       <img src={item.urls.regular} alt={item.alt_description} />

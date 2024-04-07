@@ -1,9 +1,9 @@
 import s from "./ImageModal.module.css";
 
-const ImageModal = ({ imageUrl, onClose }) => {
+const ImageModal = ({ imageUrl }) => {
   return (
     <div className={s.content}>
-      <img src={imageUrl} alt="Large" />
+      <img src={imageUrl.urls.regular} alt={imageUrl.alt_description} />
     </div>
   );
 };

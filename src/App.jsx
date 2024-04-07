@@ -114,9 +114,7 @@ function App() {
           },
         }}
       >
-        {selectedImage && (
-          <ImageModal imageUrl={selectedImage} onClose={closeModal} />
-        )}
+        {selectedImage && <ImageModal imageUrl={selectedImage} />}
       </Modal>
     </>
   );
